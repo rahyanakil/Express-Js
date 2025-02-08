@@ -1,32 +1,20 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const routes = require("./routes"); // Import routes
+const routes = require("./routes");
 
-// Load environment variables
 dotenv.config();
-
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json()); // Parse JSON requests
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests
-app.use(cors()); // Enable CORS
-app.use(helmet()); // Secure HTTP headers
-app.use(morgan("dev")); // Logger
+app.use(express.json());
+app.use(cors());
 
 // Use Routes
-app.use("/api", routes);
-
-// Default Route
-app.get("/", (req, res) => {
-  res.send("Welcome to Express Server");
-});
+app.use("/", routes);
 
 // Start Server
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
